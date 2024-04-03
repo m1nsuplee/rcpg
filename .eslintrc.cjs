@@ -7,6 +7,9 @@ module.exports = {
       'error',
       {
         args: 'after-used',
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
         caughtErrors: 'none',
         ignoreRestSiblings: true,
         vars: 'all',
