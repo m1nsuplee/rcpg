@@ -12,7 +12,7 @@ export function KakaoMap() {
     data: { latitude, longitude },
   } = useUserLocation();
 
-  useKakaoMap({ latitude, longitude });
+  useKakaoMap({ center: new kakao.maps.LatLng(latitude, longitude) });
 
   return (
     <div
