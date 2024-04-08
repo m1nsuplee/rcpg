@@ -1,3 +1,4 @@
+import { QueryClientProvider } from '@/components/query-client-provider';
 import { siteConfig } from '@/configs/site.config';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
@@ -13,8 +14,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ko">
+      <body className={inter.className}>
+        <QueryClientProvider>{children}</QueryClientProvider>
+      </body>
     </html>
   );
 }
