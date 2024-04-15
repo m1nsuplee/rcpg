@@ -15,9 +15,12 @@ describe('PolymorphicComponent', () => {
 
   it(`as="a" 일 경우, href 속성을 사용할 수 있습니다.`, () => {
     render(
-      <PolymorphicComponent as="a" href="https://example.com">
+      <PolymorphicComponent
+        as="a"
+        href="https://example.com"
+      >
         hello, world!
-      </PolymorphicComponent>
+      </PolymorphicComponent>,
     );
     expect(screen.getByText('hello, world!').tagName).toBe('A');
     expect(screen.getByText('hello, world!')).toHaveProperty('href');
@@ -27,11 +30,7 @@ describe('PolymorphicComponent', () => {
     const CustomComponent = ({ children }: { children: React.ReactNode }) => (
       <section>{children}</section>
     );
-    render(
-      <PolymorphicComponent as={CustomComponent}>
-        hello, world!
-      </PolymorphicComponent>
-    );
+    render(<PolymorphicComponent as={CustomComponent}>hello, world!</PolymorphicComponent>);
     expect(screen.getByText('hello, world!').tagName).toBe('SECTION');
   });
 });
