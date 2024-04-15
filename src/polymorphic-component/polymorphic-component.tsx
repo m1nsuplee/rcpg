@@ -26,7 +26,10 @@ export function PolymorphicComponent<T extends React.ElementType = 'span'>({
   const Element = as || 'span';
 
   return (
-    <Element className={className} {...props}>
+    <Element
+      className={className}
+      {...props}
+    >
       {children}
     </Element>
   );
