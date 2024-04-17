@@ -10,90 +10,77 @@ type Story = StoryObj<typeof AspectRatio>;
 
 export const W16H9: Story = {
   render: () => (
-    <div
-      id="container"
+    <AspectRatio
+      width={300}
+      ratio={16 / 9}
       style={{
-        width: '300px',
+        backgroundColor: 'lightcoral',
       }}
-    >
-      <AspectRatio
-        ratio={16 / 9}
-        style={{
-          backgroundColor: 'lightcoral',
-        }}
-      />
-    </div>
+    />
   ),
 };
 
 export const W4H3: Story = {
   render: () => (
-    <div
-      id="container"
+    <AspectRatio
+      width={300}
+      ratio={4 / 3}
       style={{
-        width: '300px',
+        backgroundColor: 'lightcoral',
       }}
-    >
-      <AspectRatio
-        ratio={4 / 3}
-        style={{
-          backgroundColor: 'lightcoral',
-        }}
-      />
-    </div>
+    />
   ),
 };
 
 export const W1H1: Story = {
   render: () => (
-    <div
-      id="container"
+    <AspectRatio
+      width={300}
+      ratio={1}
       style={{
-        width: '300px',
+        backgroundColor: 'lightcoral',
       }}
-    >
-      <AspectRatio
-        ratio={1}
-        style={{
-          backgroundColor: 'lightcoral',
-        }}
-      />
-    </div>
+    />
   ),
 };
 
 export const W3H4: Story = {
   render: () => (
-    <div
-      id="container"
+    <AspectRatio
+      width={300}
+      ratio={3 / 4}
       style={{
-        width: '300px',
+        backgroundColor: 'lightcoral',
       }}
-    >
-      <AspectRatio
-        ratio={3 / 4}
-        style={{
-          backgroundColor: 'lightcoral',
-        }}
-      />
-    </div>
+    />
   ),
 };
 
 export const W9H16: Story = {
   render: () => (
-    <div
-      id="container"
+    <AspectRatio
+      width={300}
+      ratio={9 / 16}
       style={{
-        width: '300px',
+        backgroundColor: 'lightcoral',
+      }}
+    />
+  ),
+};
+
+export const Polymorphic: Story = {
+  render: () => (
+    <AspectRatio
+      as="button"
+      width={300}
+      ratio={16 / 9}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
-      <AspectRatio
-        ratio={9 / 16}
-        style={{
-          backgroundColor: 'lightcoral',
-        }}
-      />
-    </div>
+      <span>Click me</span>
+    </AspectRatio>
   ),
 };

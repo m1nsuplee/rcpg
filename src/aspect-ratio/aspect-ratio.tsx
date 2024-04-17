@@ -2,31 +2,39 @@ import React from 'react';
 
 type AspectRatioProps<E extends React.ElementType = 'span'> = {
   as?: E;
+  width?: number;
   ratio?: number;
-} & Omit<React.ComponentPropsWithoutRef<E>, 'as'>;
+} & React.ComponentProps<E>;
 
 export function AspectRatio<E extends React.ElementType = 'div'>(props: AspectRatioProps<E>) {
-  const { ratio = 1 / 1, style, ...rest } = props;
+  const { as = 'div', width = 0, ratio = 1 / 1, style, ...rest } = props;
+  const Element = as || 'span';
 
   return (
     <div
       style={{
-        position: 'relative',
-        width: '100%',
-        paddingBottom: `${100 / ratio}%`,
+        width: `${width}px`,
       }}
     >
       <div
-        {...rest}
         style={{
-          ...style,
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
+          position: 'relative',
+          width: '100%',
+          paddingBottom: `${100 / ratio}%`,
         }}
-      />
+      >
+        <Element
+          {...rest}
+          style={{
+            ...style,
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+          }}
+        />
+      </div>
     </div>
   );
 }
