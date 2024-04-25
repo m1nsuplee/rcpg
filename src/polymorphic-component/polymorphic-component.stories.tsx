@@ -10,7 +10,14 @@ export default meta;
 type Story = StoryObj<typeof PolymorphicComponent>;
 
 export const Button: Story = {
-  render: () => <PolymorphicComponent as="button">am I a button?</PolymorphicComponent>,
+  render: () => (
+    <PolymorphicComponent
+      as="button"
+      type="submit"
+    >
+      am I a button?
+    </PolymorphicComponent>
+  ),
 };
 
 export const Link: Story = {
