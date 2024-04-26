@@ -53,7 +53,7 @@ export function Toggle() {
       <button onClick={setOn}>on</button>
       <button onClick={setOff}>off</button>
       <p>
-        The button is <strong>{on ? 'on' : 'off'}</strong>
+        The button is <strong role="status">{on ? 'on' : 'off'}</strong>
       </p>
     </div>
   );
