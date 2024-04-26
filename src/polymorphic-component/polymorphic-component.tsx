@@ -4,10 +4,18 @@ type PolymorphicComponentProps<E extends React.ElementType> = {
   as?: E;
 } & React.ComponentPropsWithoutRef<E>;
 
-export const PolymorphicComponent = <E extends React.ElementType = 'span'>(
-  props: PolymorphicComponentProps<E>,
-) => {
-  const { as: Element = 'span', ...rest } = props;
+export const PolymorphicComponent = React.forwardRef(
+  <E extends React.ElementType = 'div'>(
+    props: PolymorphicComponentProps<E>,
+    ref: React.Ref<HTMLDivElement>,
+  ) => {
+    const { as: Element = 'div', ...rest } = props;
 
-  return <Element {...rest} />;
-};
+    return (
+      <Element
+        ref={ref}
+        {...rest}
+      />
+    );
+  },
+);
