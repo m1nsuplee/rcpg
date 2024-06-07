@@ -13,15 +13,29 @@ export const Example: Story = {
   render: () => {
     return (
       <Disclosure>
-        {({ isOpen, toggle, close }) => (
-          <div>
-            <button onClick={toggle}>toggle</button>
-            <button onClick={close}>close</button>
-            <p>
-              The content is{' '}
-              <strong role="status">{isOpen ? 'visible' : 'hidden'}</strong>
-            </p>
-          </div>
+        {({ isOpen, toggle }) => (
+          <section>
+            <div>
+              <span
+                style={{
+                  marginRight: '0.5rem',
+                }}
+              >
+                무엇이 있을까요?
+              </span>
+              <button
+                type="button"
+                onClick={toggle}
+              >
+                {isOpen ? '⬆️' : '⬇️'}
+              </button>
+            </div>
+            {isOpen ? (
+              <article>
+                <p>짠!</p>
+              </article>
+            ) : null}
+          </section>
         )}
       </Disclosure>
     );
