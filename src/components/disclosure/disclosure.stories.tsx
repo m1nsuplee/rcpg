@@ -30,11 +30,9 @@ export const Example: Story = {
                 {isOpen ? '⬆️' : '⬇️'}
               </button>
             </div>
-            {isOpen ? (
-              <article>
-                <p>짠!</p>
-              </article>
-            ) : null}
+            <article hidden={isOpen}>
+              <p>짠!</p>
+            </article>
           </section>
         )}
       </Disclosure>
