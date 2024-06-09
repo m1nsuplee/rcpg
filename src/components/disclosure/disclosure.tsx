@@ -41,14 +41,14 @@ function disclosureReducer(
   }
 }
 
-function useDisclosureReducer() {
+function useDisclosureReducer(defaultOpen: boolean = false) {
   return useReducer(disclosureReducer, {
-    state: DisclosureStates.Closed,
+    state: defaultOpen ? DisclosureStates.Open : DisclosureStates.Closed,
   });
 }
 
-function useDisclosure() {
-  const [{ state }, dispatch] = useDisclosureReducer();
+function useDisclosure(defaultOpen: boolean = false) {
+  const [{ state }, dispatch] = useDisclosureReducer(defaultOpen);
 
   const toggle = () => {
     dispatch({
@@ -69,6 +69,7 @@ function useDisclosure() {
 }
 
 interface DisclosureProps {
+  defaultOpen?: boolean;
   children: (props: {
     isOpen: boolean;
     toggle: () => void;
@@ -76,8 +77,8 @@ interface DisclosureProps {
   }) => JSX.Element;
 }
 
-export function Disclosure({ children }: DisclosureProps) {
-  const disclosure = useDisclosure();
+export function Disclosure({ defaultOpen = false, children }: DisclosureProps) {
+  const disclosure = useDisclosure(defaultOpen);
 
   return children(disclosure);
 }
