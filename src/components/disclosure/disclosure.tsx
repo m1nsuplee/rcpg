@@ -21,7 +21,7 @@ type DisclosureActions = {
 function disclosureReducer(
   state: DisclosureStateDefinition,
   action: DisclosureActions,
-) {
+): DisclosureStateDefinition {
   switch (action.type) {
     case DisclosureActionTypes.Toggle:
       return {
@@ -41,13 +41,19 @@ function disclosureReducer(
   }
 }
 
-function useDisclosureReducer(defaultOpen: boolean = false) {
+function useDisclosureReducer(
+  defaultOpen: boolean = false,
+): [DisclosureStateDefinition, (action: DisclosureActions) => void] {
   return useReducer(disclosureReducer, {
     state: defaultOpen ? DisclosureStates.Open : DisclosureStates.Closed,
   });
 }
 
-function useDisclosure(defaultOpen: boolean = false) {
+function useDisclosure(defaultOpen: boolean = false): {
+  isOpen: boolean;
+  toggle: () => void;
+  close: () => void;
+} {
   const [{ state }, dispatch] = useDisclosureReducer(defaultOpen);
 
   const toggle = () => {
@@ -77,7 +83,10 @@ interface DisclosureProps {
   }) => JSX.Element;
 }
 
-export function Disclosure({ defaultOpen = false, children }: DisclosureProps) {
+export function Disclosure({
+  defaultOpen = false,
+  children,
+}: DisclosureProps): JSX.Element {
   const disclosure = useDisclosure(defaultOpen);
 
   return children(disclosure);
