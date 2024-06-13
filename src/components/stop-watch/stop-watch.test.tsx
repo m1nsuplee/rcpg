@@ -42,7 +42,7 @@ describe('<StopWatch>', () => {
     expect(button.textContent).toBe('pause');
   });
 
-  it('start를 실', async () => {
+  it('reset을 실행하면, isRunning은 false가 되고, currentTime은 0이 된다.', async () => {
     const { getByTestId } = render(
       <StopWatch>
         {({ isRunning, currentTime, start, pause, reset }) => (
@@ -92,6 +92,11 @@ describe('<StopWatch>', () => {
 
     await userEvent.click(pauseButton);
     expect(isRunning.textContent).toBe('paused');
+
+    await userEvent.click(startButton);
+    expect(isRunning.textContent).toBe('running');
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     await userEvent.click(resetButton);
     expect(currentTime.textContent).toBe('0');
