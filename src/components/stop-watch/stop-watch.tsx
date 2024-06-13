@@ -74,7 +74,15 @@ function useStopWatchReducer(): [
   });
 }
 
-function useStopWatch(autoStart: boolean) {
+interface StopWatchAPI {
+  isRunning: boolean;
+  currentTime: number;
+  start: () => void;
+  pause: () => void;
+  reset: () => void;
+}
+
+function useStopWatch(autoStart: boolean): StopWatchAPI {
   const [{ state, time: currentTime }, dispatch] = useStopWatchReducer();
 
   const start = useCallback(() => {
@@ -127,13 +135,7 @@ function useStopWatch(autoStart: boolean) {
 
 interface StopWatchProps {
   autoStart?: boolean;
-  children: (props: {
-    isRunning: boolean;
-    currentTime: number;
-    start: () => void;
-    pause: () => void;
-    reset: () => void;
-  }) => JSX.Element;
+  children: (props: StopWatchAPI) => JSX.Element;
 }
 
 export function StopWatch({
