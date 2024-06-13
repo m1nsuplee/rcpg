@@ -4,15 +4,7 @@ import { useInterval } from './use-interval';
 const FRAME_INTERVAL_MS = 1 / 60;
 
 enum StopWatchState {
-  /**
-   * @description 타이머가 시작되었음을 나타내는 상태로 타이머의 시간이 흐른다.
-   */
   Running,
-
-  /**
-   * @description 타이머가 일시정지된 상태로 타이머의 시간은 유지된다.
-   * 사용자가 타이머를 일시정지할 때 이 상태가 된다.
-   */
   Paused,
 }
 
