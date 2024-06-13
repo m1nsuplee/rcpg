@@ -119,7 +119,6 @@ function useStopWatch(autoStart: boolean) {
 
   return {
     isRunning: state === StopWatchState.Running,
-    isPaused: state === StopWatchState.Paused,
     currentTime,
     start,
     pause,
@@ -131,7 +130,6 @@ interface StopWatchProps {
   autoStart?: boolean;
   children: (props: {
     isRunning: boolean;
-    isPaused: boolean;
     currentTime: number;
     start: () => void;
     pause: () => void;
@@ -143,12 +141,11 @@ export function StopWatch({
   autoStart = false,
   children,
 }: StopWatchProps): JSX.Element {
-  const { isRunning, isPaused, currentTime, start, pause, reset } =
+  const { isRunning, currentTime, start, pause, reset } =
     useStopWatch(autoStart);
 
   return children({
     isRunning,
-    isPaused,
     currentTime,
     start,
     pause,
