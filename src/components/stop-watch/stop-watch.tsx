@@ -15,7 +15,6 @@ interface StopWatchStateDefinition {
 
 enum StopWatchActionTypes {
   Start,
-  Stop,
   Pause,
   Reset,
   Tick,
