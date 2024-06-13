@@ -8,10 +8,7 @@ enum StopWatchState {
    * @description 타이머가 시작되었음을 나타내는 상태로 타이머의 시간이 흐른다.
    */
   Running,
-  /**
-   * @description 타이머가 완전히 정지되었음을 나타내는 상태로 타이머의 시간이 0으로 초기화된다.
-   */
-  Stopped,
+
   /**
    * @description 타이머가 일시정지된 상태로 타이머의 시간은 유지된다.
    * 사용자가 타이머를 일시정지할 때 이 상태가 된다.
@@ -37,9 +34,6 @@ type StopWatchActions =
       type: StopWatchActionTypes.Start;
     }
   | {
-      type: StopWatchActionTypes.Stop;
-    }
-  | {
       type: StopWatchActionTypes.Pause;
     }
   | {
@@ -59,11 +53,6 @@ function stopWatchReducer(
         ...state,
         state: StopWatchState.Running,
       };
-    case StopWatchActionTypes.Stop:
-      return {
-        ...state,
-        state: StopWatchState.Stopped,
-      };
     case StopWatchActionTypes.Pause:
       return {
         ...state,
@@ -71,7 +60,7 @@ function stopWatchReducer(
       };
     case StopWatchActionTypes.Reset:
       return {
-        state: StopWatchState.Stopped,
+        state: StopWatchState.Paused,
         time: 0,
       };
     case StopWatchActionTypes.Tick:
@@ -89,7 +78,7 @@ function useStopWatchReducer(): [
   (action: StopWatchActions) => void,
 ] {
   return useReducer(stopWatchReducer, {
-    state: StopWatchState.Stopped,
+    state: StopWatchState.Paused,
     time: 0,
   });
 }
@@ -138,7 +127,6 @@ function useStopWatch(autoStart: boolean) {
 
   return {
     isRunning: state === StopWatchState.Running,
-    isStopped: state === StopWatchState.Stopped,
     isPaused: state === StopWatchState.Paused,
     currentTime,
     start,
@@ -151,7 +139,6 @@ interface StopWatchProps {
   autoStart?: boolean;
   children: (props: {
     isRunning: boolean;
-    isStopped: boolean;
     isPaused: boolean;
     currentTime: number;
     start: () => void;
@@ -164,12 +151,11 @@ export function StopWatch({
   autoStart = false,
   children,
 }: StopWatchProps): JSX.Element {
-  const { isRunning, isStopped, isPaused, currentTime, start, pause, reset } =
+  const { isRunning, isPaused, currentTime, start, pause, reset } =
     useStopWatch(autoStart);
 
   return children({
     isRunning,
-    isStopped,
     isPaused,
     currentTime,
     start,
