@@ -86,22 +86,18 @@ function stopWatchReducer(
   }
 }
 
-function useStopWatchReducer(
-  initialTime: number,
-): [StopWatchStateDefinition, (action: StopWatchActions) => void] {
+function useStopWatchReducer(): [
+  StopWatchStateDefinition,
+  (action: StopWatchActions) => void,
+] {
   return useReducer(stopWatchReducer, {
     state: StopWatchState.Stopped,
-    time: initialTime,
+    time: 0,
   });
 }
 
-function useStopWatch(
-  autoStart: boolean,
-  initialTime: number,
-  interval: number,
-) {
-  const [{ state, time: currentTime }, dispatch] =
-    useStopWatchReducer(initialTime);
+function useStopWatch(autoStart: boolean, interval: number) {
+  const [{ state, time: currentTime }, dispatch] = useStopWatchReducer();
 
   const start = useCallback(() => {
     dispatch({
@@ -157,7 +153,6 @@ function useStopWatch(
 interface StopWatchProps {
   autoStart?: boolean;
   interval?: number;
-  initialTime?: number;
   children: (props: {
     isRunning: boolean;
     isStopped: boolean;
@@ -172,7 +167,6 @@ interface StopWatchProps {
 export function StopWatch({
   autoStart = false,
   interval = DEFAULT_INTERVAL_MS,
-  initialTime = 0,
   children,
 }: StopWatchProps): JSX.Element {
   if (interval < MINIMUM_INTERVAL_MS) {
@@ -180,7 +174,7 @@ export function StopWatch({
   }
 
   const { isRunning, isStopped, isPaused, currentTime, start, pause, reset } =
-    useStopWatch(autoStart, initialTime, interval);
+    useStopWatch(autoStart, interval);
 
   return children({
     isRunning,
