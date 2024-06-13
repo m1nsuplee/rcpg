@@ -17,7 +17,7 @@ describe('<StopWatch>', () => {
     expect(currentTime.textContent).toBe('0');
   });
 
-  it('<StopWatch> 컴포넌트의 start 함수를 호출하면 isRunning이 true가 된다.', async () => {
+  it('isRunning은 start를 호출하면 true가 되고, pause를 호출하면 false가 된다.', async () => {
     const { getByTestId } = render(
       <StopWatch>
         {({ isRunning, start, pause }) => (
@@ -42,18 +42,10 @@ describe('<StopWatch>', () => {
     expect(button.textContent).toBe('pause');
   });
 
-  it('<StopWatch>가 제공하는 isRunning과 isStopped, isPaused는 상호 배타적이다.', async () => {
+  it('start를 실', async () => {
     const { getByTestId } = render(
       <StopWatch>
-        {({
-          isRunning,
-          isStopped,
-          isPaused,
-          currentTime,
-          start,
-          pause,
-          reset,
-        }) => (
+        {({ isRunning, currentTime, start, pause, reset }) => (
           <section>
             <button
               data-testid="start-button"
@@ -75,9 +67,9 @@ describe('<StopWatch>', () => {
             </button>
             <p data-testid="current-time">{currentTime}</p>
             <div>
-              <span data-testid="is-running">{isRunning ? 'running' : ''}</span>
-              <span data-testid="is-stopped">{isStopped ? 'stopped' : ''}</span>
-              <span data-testid="is-paused">{isPaused ? 'paused' : ''}</span>
+              <span data-testid="is-running">
+                {isRunning ? 'running' : 'paused'}
+              </span>
             </div>
           </section>
         )}
@@ -89,30 +81,20 @@ describe('<StopWatch>', () => {
     const pauseButton = getByTestId('pause-button');
     const resetButton = getByTestId('reset-button');
     const isRunning = getByTestId('is-running');
-    const isStopped = getByTestId('is-stopped');
-    const isPaused = getByTestId('is-paused');
 
     expect(currentTime.textContent).toBe('0');
-    expect(isRunning.textContent).toBe('');
-    expect(isStopped.textContent).toBe('stopped');
-    expect(isPaused.textContent).toBe('');
+    expect(isRunning.textContent).toBe('paused');
 
     await userEvent.click(startButton);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     expect(currentTime.textContent).not.toBe('0');
     expect(isRunning.textContent).toBe('running');
-    expect(isStopped.textContent).toBe('');
-    expect(isPaused.textContent).toBe('');
 
     await userEvent.click(pauseButton);
-    expect(isRunning.textContent).toBe('');
-    expect(isStopped.textContent).toBe('');
-    expect(isPaused.textContent).toBe('paused');
+    expect(isRunning.textContent).toBe('paused');
 
     await userEvent.click(resetButton);
     expect(currentTime.textContent).toBe('0');
-    expect(isRunning.textContent).toBe('');
-    expect(isStopped.textContent).toBe('stopped');
-    expect(isPaused.textContent).toBe('');
+    expect(isRunning.textContent).toBe('paused');
   });
 });
