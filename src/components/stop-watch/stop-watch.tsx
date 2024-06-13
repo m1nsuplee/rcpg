@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { useInterval } from './use-interval';
 
-const MINIMUM_INTERVAL_MS = 16;
-const DEFAULT_INTERVAL_MS = 1000;
+const FRAME_INTERVAL_MS = 1 / 60;
 
 enum StopWatchState {
   /**
@@ -48,7 +47,6 @@ type StopWatchActions =
     }
   | {
       type: StopWatchActionTypes.Tick;
-      interval: number;
     };
 
 function stopWatchReducer(
@@ -79,7 +77,7 @@ function stopWatchReducer(
     case StopWatchActionTypes.Tick:
       return {
         ...state,
-        time: state.time + action.interval / 1000,
+        time: state.time + FRAME_INTERVAL_MS,
       };
     default:
       throw new Error(`Unsupported action type: ${action}`);
@@ -96,7 +94,7 @@ function useStopWatchReducer(): [
   });
 }
 
-function useStopWatch(autoStart: boolean, interval: number) {
+function useStopWatch(autoStart: boolean) {
   const [{ state, time: currentTime }, dispatch] = useStopWatchReducer();
 
   const start = useCallback(() => {
@@ -120,9 +118,8 @@ function useStopWatch(autoStart: boolean, interval: number) {
   const tick = useCallback(() => {
     dispatch({
       type: StopWatchActionTypes.Tick,
-      interval,
     });
-  }, [dispatch, interval]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (autoStart) {
@@ -136,7 +133,7 @@ function useStopWatch(autoStart: boolean, interval: number) {
         tick();
       }
     },
-    state === StopWatchState.Running ? interval : null,
+    state === StopWatchState.Running ? FRAME_INTERVAL_MS : null,
   );
 
   return {
@@ -152,7 +149,6 @@ function useStopWatch(autoStart: boolean, interval: number) {
 
 interface StopWatchProps {
   autoStart?: boolean;
-  interval?: number;
   children: (props: {
     isRunning: boolean;
     isStopped: boolean;
@@ -166,15 +162,10 @@ interface StopWatchProps {
 
 export function StopWatch({
   autoStart = false,
-  interval = DEFAULT_INTERVAL_MS,
   children,
 }: StopWatchProps): JSX.Element {
-  if (interval < MINIMUM_INTERVAL_MS) {
-    interval = MINIMUM_INTERVAL_MS;
-  }
-
   const { isRunning, isStopped, isPaused, currentTime, start, pause, reset } =
-    useStopWatch(autoStart, interval);
+    useStopWatch(autoStart);
 
   return children({
     isRunning,

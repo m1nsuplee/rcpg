@@ -16,10 +16,7 @@ export const Example: Story = {
     };
 
     return (
-      <StopWatch
-        autoStart
-        interval={16}
-      >
+      <StopWatch>
         {({ currentTime, start, pause, reset, isRunning }) => (
           <section>
             <div>
