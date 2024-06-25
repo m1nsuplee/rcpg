@@ -1,53 +1,38 @@
-type Merge<T, U> = Omit<T, keyof U> & U;
+import {
+  CSSProperties,
+  ComponentPropsWithRef,
+  ComponentPropsWithoutRef,
+  ElementType,
+  PropsWithChildren,
+  ReactNode,
+} from 'react';
 
-type PropsWithAs<P, T extends React.ElementType> = P & { as?: T };
+interface AsProp<C extends ElementType> {
+  as?: C;
+}
 
-export type PolymorphicPropsWithoutRef<P, T extends React.ElementType> = Merge<
-  T extends keyof JSX.IntrinsicElements
-    ? React.PropsWithoutRef<JSX.IntrinsicElements[T]>
-    : React.ComponentPropsWithoutRef<T>,
-  PropsWithAs<P, T>
->;
+interface ForwardedProps<C extends ElementType> {
+  className?: string;
+  style?: CSSProperties;
+  asProps?: ComponentPropsWithoutRef<C>;
+}
 
-export type PolymorphicPropsWithRef<P, T extends React.ElementType> = Merge<
-  T extends keyof JSX.IntrinsicElements
-    ? React.PropsWithRef<JSX.IntrinsicElements[T]>
-    : React.ComponentPropsWithRef<T>,
-  PropsWithAs<P, T>
->;
+type PolymorphicComponentPropsWithoutRef<
+  C extends ElementType,
+  Props = unknown,
+> = PropsWithChildren<Props & AsProp<C> & ForwardedProps<C>>;
 
-type PolymorphicExoticComponent<
-  P = {},
-  T extends React.ElementType = React.ElementType,
-> = Merge<
-  React.ExoticComponent<P & { [key: string]: unknown }>,
-  {
-    <InstanceT extends React.ElementType = T>(
-      props: PolymorphicPropsWithRef<P, InstanceT>,
-    ): React.ReactElement | null;
-  }
->;
+export type PolymorphicComponentProps<
+  C extends ElementType,
+  Props = unknown,
+> = PolymorphicComponentPropsWithoutRef<C, Props> & { ref?: PolymorphicRef<C> };
 
-export type PolymorphicForwardRefExoticComponent<
-  P,
-  T extends React.ElementType,
-> = Merge<
-  React.ForwardRefExoticComponent<P & { [key: string]: unknown }>,
-  PolymorphicExoticComponent<P, T>
->;
+export type PolymorphicRef<C extends ElementType> =
+  ComponentPropsWithRef<C>['ref'];
 
-export type PolymorphicMemoExoticComponent<
-  P,
-  T extends React.ElementType,
-> = Merge<
-  React.MemoExoticComponent<React.ComponentType<any>>,
-  PolymorphicExoticComponent<P, T>
->;
-
-export type PolymorphicLazyExoticComponent<
-  P,
-  T extends React.ElementType,
-> = Merge<
-  React.LazyExoticComponent<React.ComponentType<any>>,
-  PolymorphicExoticComponent<P, T>
->;
+export type PolymorphicComponentType<
+  Props = unknown,
+  DefaultType extends ElementType = 'div',
+> = <C extends ElementType = DefaultType>(
+  props: PolymorphicComponentProps<C, Props>,
+) => ReactNode;
