@@ -10,15 +10,13 @@ export const PolymorphicComponent: PolymorphicComponentType = forwardRef(
     props: PolymorphicComponentProps<C>,
     ref?: PolymorphicRef<C>,
   ) {
-    const { as, className, style, ...rest } = props;
+    const { as, ...rest } = props;
 
     const Component = as || 'div';
 
     return (
       <Component
         ref={ref}
-        className={className}
-        style={style}
         {...rest}
       />
     );

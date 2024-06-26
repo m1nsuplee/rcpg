@@ -1,5 +1,4 @@
 import {
-  CSSProperties,
   ComponentPropsWithRef,
   ComponentPropsWithoutRef,
   ElementType,
@@ -11,15 +10,10 @@ interface AsProp<C extends ElementType> {
   as?: C;
 }
 
-type ForwardedProps<C extends ElementType> = {
-  className?: string;
-  style?: CSSProperties;
-} & ComponentPropsWithoutRef<C>;
-
 type PolymorphicComponentPropsWithoutRef<
   C extends ElementType,
   Props = unknown,
-> = PropsWithChildren<Props & AsProp<C> & ForwardedProps<C>>;
+> = PropsWithChildren<Props & AsProp<C> & ComponentPropsWithoutRef<C>>;
 
 export type PolymorphicComponentProps<
   C extends ElementType,
