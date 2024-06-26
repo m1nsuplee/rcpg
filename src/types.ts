@@ -11,11 +11,10 @@ interface AsProp<C extends ElementType> {
   as?: C;
 }
 
-interface ForwardedProps<C extends ElementType> {
+type ForwardedProps<C extends ElementType> = {
   className?: string;
   style?: CSSProperties;
-  asProps?: ComponentPropsWithoutRef<C>;
-}
+} & ComponentPropsWithoutRef<C>;
 
 type PolymorphicComponentPropsWithoutRef<
   C extends ElementType,

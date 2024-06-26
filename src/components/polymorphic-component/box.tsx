@@ -7,7 +7,13 @@ import {
 
 export const Box: PolymorphicComponentType = forwardRef(
   <C extends React.ElementType = 'div'>(
-    { as, children, className, style, asProps }: PolymorphicComponentProps<C>,
+    {
+      as,
+      children,
+      className,
+      style,
+      ...restProps
+    }: PolymorphicComponentProps<C>,
     ref?: PolymorphicRef<C>,
   ) => {
     const Component = as ?? 'div';
@@ -17,7 +23,7 @@ export const Box: PolymorphicComponentType = forwardRef(
         ref={ref}
         className={className}
         style={style}
-        {...asProps}
+        {...restProps}
       >
         {children}
       </Component>
