@@ -12,7 +12,7 @@ type Story = StoryObj<typeof PolymorphicComponent>;
 export const Default: Story = {
   render: () => {
     return (
-      <PolymorphicComponent>
+      <PolymorphicComponent className="123">
         <div>Default</div>
       </PolymorphicComponent>
     );
@@ -23,6 +23,7 @@ export const AsButton: Story = {
   render: () => {
     return (
       <PolymorphicComponent
+        className="1234512312321"
         as="button"
         onClick={() => alert('Button clicked!')}
       >
@@ -36,9 +37,14 @@ export const AsAnchor: Story = {
   render: () => {
     return (
       <PolymorphicComponent
+        className="12345"
         as="a"
         href="https://example.com"
         target="_blank"
+        style={{
+          color: 'red',
+          backgroundColor: 'lightblue',
+        }}
       >
         <span>As Anchor</span>
       </PolymorphicComponent>
@@ -48,13 +54,20 @@ export const AsAnchor: Story = {
 
 export const AsCustomComponent: Story = {
   render: () => {
-    const CustomComponent = ({ children }: { children: React.ReactNode }) => {
+    const CustomComponent = ({
+      onClick,
+      children,
+    }: {
+      onClick: () => void;
+      children: React.ReactNode;
+    }) => {
       return (
         <div
           style={{
             backgroundColor: 'lightblue',
             padding: '1rem',
           }}
+          onClick={onClick}
         >
           {children}
         </div>
@@ -62,7 +75,10 @@ export const AsCustomComponent: Story = {
     };
 
     return (
-      <PolymorphicComponent as={CustomComponent}>
+      <PolymorphicComponent
+        as={CustomComponent}
+        onClick={() => alert('onClick props')}
+      >
         <span>As Custom Component</span>
       </PolymorphicComponent>
     );
