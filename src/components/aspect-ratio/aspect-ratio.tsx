@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { ElementType, forwardRef } from 'react';
 import {
   PolymorphicComponentProps,
   PolymorphicComponentType,
@@ -12,7 +12,7 @@ interface AspectRatioProps {
 type AspectRatioComponentType = PolymorphicComponentType<AspectRatioProps>;
 
 export const AspectRatio: AspectRatioComponentType = forwardRef(
-  function AspectRatioWithRef<C extends React.ElementType = 'div'>(
+  function AspectRatioWithRef<C extends ElementType = 'div'>(
     props: PolymorphicComponentProps<C> & AspectRatioProps,
     ref?: PolymorphicRef<C>,
   ) {
